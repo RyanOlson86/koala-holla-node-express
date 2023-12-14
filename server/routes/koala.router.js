@@ -53,5 +53,22 @@ router.get('/', (req, res) => {
   }); 
 
 // DELETE
+router.delete('/:id', (req, res) => {
+  console.log("running")
+  let koalaId = req.params.id;
+
+  const queryText = `DELETE FROM "koalas" WHERE "id" = $1;`
+  const queryParams = [koalaId];
+
+  pool.query(queryText, queryParams)
+      .then(() => {
+          console.log("Koala Deleted")
+          res.sendStatus(200);
+      })
+      .catch((error) => {
+          console.log("Error in DELETE query: ", queryText, error);
+          res.sendStatus(500);
+      });
+});
 
 module.exports = router;
