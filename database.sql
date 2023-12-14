@@ -15,3 +15,6 @@ VALUES
 ('Charlie', 'M', 9, True, 'Favorite band is Nirvana');
 
 SELECT * FROM "koalas" ORDER BY "id";
+DELETE FROM "koalas" WHERE "id" = $1;
+
+UPDATE "koalas" SET "transferReady" = True WHERE "id" = $1;
