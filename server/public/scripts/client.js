@@ -1,4 +1,4 @@
-console.log( 'js' );
+console.log( 'test' );
 
 function getKoalas(){
   console.log( 'in getKoalas' );
