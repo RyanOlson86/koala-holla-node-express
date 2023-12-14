@@ -14,7 +14,14 @@ let koalaArray = [
 
 function renderKoalas(array){
   let tableBody = document.getElementById('viewKoalas')
+  tableBody.innerHTML = ''
   for (const koala of array) {
+    let isReady = ''
+    if(koala.transferReady === false){
+      isReady = `<button onCLick='updateReady(${koala.id})'>
+      Ready for transfer
+    </button>`
+    }
     tableBody.innerHTML += `
   <tr>
     <td>${koala.name}</td>
@@ -22,14 +29,30 @@ function renderKoalas(array){
     <td>${koala.age}</td>
     <td>${koala.transferReady}</td>
     <td>${koala.notes}</td>
-    <td></td>
-    <td></td>
+    <td>${isReady}</td>
+    <td>
+      <button onCLick='deleteKoala(${koala.id})'>
+        Delete
+      </button>
+    </td>
   </tr>
   `
   }
 }
 
-renderKoalas(koalaArray);
+getKoalas()
+
+function updateReady(koalaId){
+  //console.log('mark as ready clicked')
+  axios.put(`/koalas/${koalaId}`)
+  .then((response)=>{
+    getKoalas()
+  })
+  .catch((error)=>{
+    console.log('Error in updateReady', error);
+  })
+}
+
 
 
 function getKoalas(){
@@ -40,6 +63,9 @@ function getKoalas(){
     console.log(response.data);
     renderKoalas(response.data)
   })
+  .catch((error)=>{
+    console.log('Error in getKoalas', error);
+  })
  // end getKoalas
 }
 function saveKoala(){
@@ -47,6 +73,37 @@ function saveKoala(){
   // axios call to server to get koalas
  
 }
+
+function submitKoala(event){
+  event.preventDefault()
+  let newKoala = {
+    name: document.getElementById(`nameIn`).value,
+    gender: document.getElementById(`genderIn`).value,
+    age: document.getElementById(`ageIn`).value,
+    transferReady: document.getElementById(`readyForTransferIn`).value,
+    notes: document.getElementById(`notesIn`).value
+  }
+  console.log(newKoala)
+  axios.post('/koalas', newKoala)
+  .then((response)=>{
+    getKoalas()
+    console.log('in post request')
+  })
+  .catch((error)=>{
+    console.log('Error in post', error);
+  })
+}
+
+function deleteKoala(koalaId){
+  axios.delete(`/koalas/${koalaId}`)
+  .then((response)=>{
+    getKoalas();
+  })
+  .catch((error)=>{
+    console.log('Error in delete', error);
+  })
+}
+
 
 
 
