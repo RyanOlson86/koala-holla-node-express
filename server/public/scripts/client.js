@@ -25,12 +25,12 @@ function renderKoalas(array){
     tableBody.innerHTML += `
   <tr>
     <td>${koala.name}</td>
-    <td>${koala.gender}</td>
     <td>${koala.age}</td>
+    <td>${koala.gender}</td>
     <td>${koala.transferReady}</td>
     <td>${koala.notes}</td>
-    <td>${isReady}</td>
-    <td>
+    <td class="center">${isReady}</td>
+    <td class="center">
       <button onCLick='deleteKoala(${koala.id})'>
         Delete
       </button>
